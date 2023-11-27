@@ -1,0 +1,15 @@
+# We put it as .dev just to mention that this docker container as part of this config file will only be ran in dev
+#Also remember this is a custom docker file name
+#to build the docker image using this custom file name  we run the command `docker build -f Dockerfile.dev .`
+
+FROM node:16-alpine
+
+WORKDIR '/app'
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+CMD ["npm" , "start"]

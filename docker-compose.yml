@@ -1,0 +1,27 @@
+version : '3'
+
+services:
+  web:
+    build:
+      # Here we spcfiy the context i.e. the place from where these files should be referenced for building the docker image/comtainer
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # Here we specify that we don't want to map any files in the current dir on local machine to node_modules in app
+      - /app/node_modules
+      # Here we map all the folder/files in the current dir in local machine to corresponding files in app
+      - .:/app
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+
+    volumes:
+      - /app/node_modules
+      - .:/app
+    #this is to overrride the default command that will get execute in the dockerfile.dev when this test container is run
+    command: ["npm" ,"run", "test"]
+
